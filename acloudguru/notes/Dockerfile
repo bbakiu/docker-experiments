@@ -1,10 +1,11 @@
-FROM python:3
+FROM python:3 AS base
 
 ENV PYBASE /pybase
 ENV PYTHONUSERBASE ${PYBASE}
 
 ENV PATH ${PYBASE}/bin:${PATH}
 
+FROM base AS builder
 RUN pip install pipenv
 
 WORKDIR /tmp
@@ -15,6 +16,8 @@ RUN pipenv lock
 
 RUN PIP_USER=1 PIP_IGONERE_INSTALLED=1 pipenv install -d --system --ignore-pipfile
 
+FROM base
+COPY --from=builder /pybase /pybase
 COPY . /app/notes
 
 WORKDIR /app/notes
