@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename-pod
+  labels:
+    name: nodename-pod
+spec:
+  nodeName: docker-desktop
+  containers:
+  - name: nginx
+    image: nginx:1.19.1
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
